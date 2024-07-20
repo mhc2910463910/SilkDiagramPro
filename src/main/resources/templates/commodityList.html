@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"   xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的文章</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/bootstrap5/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/left-menu.css}">
+    <link rel="stylesheet" th:href="@{/static/css/content.css}">
+    <link rel="stylesheet" th:href="@{/static/css/jquery-labelauty.css}">
+    <script th:src="@{/static/bootstrap5/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/js/jquery.min.js}" ></script>
+    <script src="../static/editormd/js/editormd.min.js"></script>
+    <link rel="stylesheet" href="../static/editormd/css/editormd.min.css">
+</head>
+<body>
+<!--左侧菜单-->
+<div th:replace="leftMenu :: left-menu"></div>
+<!--中心内容-->
+<div id="content">
+    <!--  页面主体-->
+    <div id="info">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">序号</th>
+                <th scope="col">标题</th>
+                <th scope="col">类型</th>
+                <th scope="col">价格</th>
+                <th scope="col">修改</th>
+                <th scope="col">删除</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr th:each="commodity:${commodityList}">
+                <th scope="row" th:text="${commodity.id}"></th>
+                <td th:text="${commodity.name}"></td>
+                <td th:text="${commodity.type}"></td>
+                <td th:text="${commodity.price}"></td>
+<!--                <td ><button  type="button"  class="btn btn-primary updateBtn"  th:data-id="${essay.id}">修改</button></td>-->
+                <td ><a th:href="@{/getCommodityByid(id=${commodity.id})}" target="_blank" class="btn btn-primary active" role="button" aria-pressed="true">修改</a></td>
+<!--                <td ><button  type="button"  class="btn btn-primary deleteBtn"  th:data-id="${essay.id}">删除</button></td>-->
+                <td ><button  type="button"   class="btn btn-primary deleteBtn"  th:data-id="${commodity.id}">删除</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--表单提交-->
+<script type="text/javascript">
+    $(".deleteBtn").click(function(){
+        var id=$(this).attr("data-id")
+        $.ajax({
+            url: "/deleteEssayByid",
+            type:"post",
+            data: {id:id},
+            success: function(){
+                    alert("删除成功")
+            }
+        })
+    })
+</script>
+</body>
+
+</html>

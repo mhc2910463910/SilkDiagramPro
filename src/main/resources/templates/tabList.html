@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/bootstrap5/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/left-menu.css}">
+<!--    <link rel="stylesheet" th:href="@{/static/editormd/css/editormd.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/content.css}">
+    <link rel="stylesheet" th:href="@{/static/css/jquery-labelauty.css}">
+    <!--    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">-->
+    <script th:src="@{/static/bootstrap5/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/js/jquery.min.js}" ></script>
+    <!--    <script src="https://blog-static.cnblogs.com/files/lihanqing/Meting.min.js"></script>-->
+    <!--    <script src="https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>-->
+<!--    <script th:src="@{/static/editormd/js/editormd.min.js}"></script>-->
+    <style>
+        #info{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!--    左侧菜单-->
+    <div th:replace="leftMenu :: left-menu"></div>
+    <!--中心内容-->
+    <div id="content">
+        <div id="info">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">序号</th>
+                    <th scope="col">标签</th>
+                    <th scope="col">删除</th>
+                    <th scope="col">图标</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+
+                    <tr th:each="keyword:${tablist}">
+
+                            <th scope="row" th:text="${keyword.id}" name="keyword_id"></th>
+                            <td th:text="${keyword.name}"></td>
+                            <td><a th:href="@{/deleteTabByid(id=${keyword.id})}">删除</a></td>
+                            <td>
+                                <form action="/updateIcon" enctype="multipart/form-data" method="post">
+                                    <input style="display: none;" type="text" th:value="${keyword.id}" name="keyword_id">
+                                    <img style="width:60px;height: 60px;" th:src="@{'/static/upload/'+${keyword.icon}}" alt="">
+                                    <input type="file" style="width: 200px;display: inline;" name="icon" class="form-control" id="inputGroupFile01">
+                                    <button type="submit" >确认</button>
+                                </form>
+                            </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">添加标签</button>
+            </div>
+            <!-- Modal -->
+            <form  id="tabForm" >
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">添加标签</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" name="tabName" class="form-control" placeholder="" aria-label="" aria-describedby="addon-wrapping">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary" onclick="addTab()">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+<!--            Model-->
+
+        </div>
+    </div>
+    <script>
+        function addTab() {
+            //自定义方法，将form中的数转转换为json格式（不是标准的）
+            $.fn.serializeJson = function () {
+                var serializeObj = {};
+                var array = this.serializeArray();
+                var str = this.serialize();
+                $(array).each(function () {
+                    if (serializeObj[this.name]) {
+                        if ($.isArray(serializeObj[this.name])) {
+                            serializeObj[this.name].push(this.value);
+                        } else {
+                            serializeObj[this.name] = [serializeObj[this.name], this.value];
+                        }
+                    } else {
+                        serializeObj[this.name] = this.value;
+                    }
+                });
+                return serializeObj;
+            };
+            var fjson = $("#tabForm").serializeJson();
+            console.log(JSON.stringify(fjson));
+            $.ajax({
+                url: "/submitTab",
+                type: "post",
+                //转换为标准格式的json
+                data: JSON.stringify(fjson),
+                //声明以json格式发送
+                contentType: "application/json;charset=UTF-8",
+                success: function () {
+                    alert("提交成功")
+                }
+            })
+        }
+    </script>
+    <script>
+        $(".deleteBtn").click(function(){
+            var id=$(this).attr("data-id")
+            $.ajax({
+                url: "/deleteEssayByid",
+                type:"post",
+                data: {id:id},
+                success: function(result){
+                    alert("删除成功")
+                }
+            })
+        })
+    </script>
+</body>
+</html>

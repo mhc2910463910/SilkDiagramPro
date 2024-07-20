@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"   xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>丝达</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/bootstrap5/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/left-menu.css}">
+    <link rel="stylesheet" href="../static/editormd/css/editormd.min.css">
+    <link rel="stylesheet" th:href="@{/static/css/content.css}">
+    <link rel="stylesheet" th:href="@{/static/css/jquery-labelauty.css}">
+    <script th:src="@{/static/bootstrap5/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/js/jquery.min.js}" ></script>
+    <script src="../static/editormd/js/editormd.min.js"></script>
+    <style>
+        #info{
+            height: 100%;
+        }
+        #content{
+            height: 500px;
+        }
+        #test-editormd{
+            width: 100%;
+            height: 500px;
+            padding: 0px;
+        }
+        #test-editormd li{
+            padding: 0px;
+        }
+        #test-editormd li a{
+            width: 30px;
+            height:30px;
+            padding: 0px;
+        }
+        .dowebok  { list-style-type: none;}
+        .dowebok li { display: inline-block;}
+        .dowebok li label{
+            padding: 2px;
+        }
+        input.labelauty + label { font: 12px "Microsoft Yahei";}
+        .dowebok{
+            padding: 0px;
+            margin: 1px;
+        }
+    </style>
+</head>
+<body>
+<!--左侧菜单-->
+<div th:replace="leftMenu :: left-menu"></div>
+<!--中心内容-->
+<div id="content" >
+<!--  页面主体-->
+    <div id="info">
+        <form id="editmd" enctype="multipart/form-data" method="post" action="/insertCommodity">
+<!--        标题-->
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-name">商品名称</span>
+            <input type="text" name="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+<!--        分类-->
+            <div class="input-group mb-3">
+                <select class="form-select" name="type" aria-label="Default select example">
+                    <option th:each="keyword:${tablist}" th:value="${keyword.name}" th:text="${keyword.name}"></option>
+                </select>
+            </div>
+<!--    编辑器-->
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-price">商品价格</span>
+                <input type="text" name="price" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class=" mb-3" style="    text-align: center;">
+                <div class="mb-3">
+                    <input class="form-control" type="file" id="img1" name="img1" >
+                    <input class="form-control" type="file" id="img2" name="img2">
+                    <input class="form-control" type="file" id="img3" name="img3">
+                </div>
+            </div>
+<!--        按钮-->
+        <div style="float: right;">
+            <button type="submit" class="btn btn-success" >提交</button>
+        </div>
+        </form>
+    </div>
+</div>
+<!--表单提交-->
+    <script type="text/javascript">
+        function subm() {
+            //自定义方法，将form中的数转转换为json格式（不是标准的）
+            $.fn.serializeJson = function () {
+                var serializeObj = {};
+                var array = this.serializeArray();
+                var str = this.serialize();
+                $(array).each(function () {
+                    if (serializeObj[this.name]) {
+                        if ($.isArray(serializeObj[this.name])) {
+                            serializeObj[this.name].push(this.value);
+                        } else {
+                            serializeObj[this.name] = [serializeObj[this.name], this.value];
+                        }
+                    } else {
+                        serializeObj[this.name] = this.value;
+                    }
+                });
+                return serializeObj;
+            };
+            var fjson = $("#editmd").serializeJson();
+            console.log(JSON.stringify(fjson));
+            $.ajax({
+                url: "/insertCommodity",
+                type: "post",
+                //转换为标准格式的json
+                data: JSON.stringify(fjson),
+                //声明以json格式发送
+                contentType: "application/json;charset=UTF-8",
+                success: function (data) {
+                    alert("提交成功")
+                }
+            })
+        }
+    </script>
+</body>
+</html>

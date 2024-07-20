@@ -1,0 +1,47 @@
+spring:
+  thymeleaf.cache: true
+  encoding: UTF-8
+  mode: HTML
+  suffix: .html
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations:
+      classpath:/static/
+  datasource:
+    url: jdbc:mysql://localhost:3306/SilkDiagram?serverTimezone=UTC
+    username: root
+    password: 10190958mhc
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 20
+    minIdle: 10
+    maxActive: 100
+  # 上传文件
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+  freemarker:
+    cache: false    #页面不加载缓存，修改即时生效
+  mail:
+    host: smtp.qq.com
+    username: 2910463910@qq.com
+    password: ejltvbsjkoyvddag
+    properties:
+      mail:
+        smtp:
+          ssl: enable=true
+    default-encoding: UTF-8
+server:
+  port: 8081
+#  ssl:
+#    key-store-password: hf8ye6q2rg
+#    key-store-type: JKS
+#    key-store: classpath:lzmhc.online.jks
+
+

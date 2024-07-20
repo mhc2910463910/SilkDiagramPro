@@ -1,0 +1,43 @@
+#left-menu{
+    /*margin-top: 52px;*/
+    width: 20%;
+    float: left;
+    height: 100%;
+    position: fixed;
+    background-color:#001529;
+}
+.accordion-body{
+    margin: 0px;
+    padding: 0px;
+}
+.accordion-body li{
+    list-style: none;
+    width: 100%;
+    background-color: blanchedalmond;
+    border-bottom: solid 1px;
+    height: 45px;
+    line-height: 45px;
+}
+.dropdown-item{
+    text-align: center;
+}
+.card svg{
+    width: 100px;
+    height: 100px;
+}
+.card-body{
+    padding: 0px;
+    text-align: center;
+}
+@media screen and (max-device-width:720px) {
+    #left-menu{
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+}
+.accordion-button{
+    background-color: turquoise;
+
+}

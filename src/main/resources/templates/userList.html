@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1 , shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/bootstrap5/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/left-menu.css}">
+    <link rel="stylesheet" href="../static/editormd/css/editormd.min.css">
+    <link rel="stylesheet" th:href="@{/static/css/content.css}">
+    <link rel="stylesheet" th:href="@{/static/css/jquery-labelauty.css}">
+    <script th:src="@{/static/bootstrap5/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/js/jquery.min.js}" ></script>
+    <script src="../static/editormd/js/editormd.min.js"></script>
+</head>
+<body>
+    <!--左侧菜单-->
+    <div th:replace="leftMenu :: left-menu"></div>
+    <!--中心内容-->
+    <div id="content">
+        <!--  页面主体-->
+        <div id="info">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">序号</th>
+                    <th scope="col">用户名</th>
+                    <th scope="col">邮箱</th>
+                    <th scope="col">电话</th>
+                    <th scope="col">头像</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                <tr th:each="user:${userList}">
+                    <th scope="row" th:text="${user.id}"></th>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td > <img style="width:50px;height: 50px;" th:src="@{'/static/upload/'+${user.avatar}}" alt=""></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</body>
+</html>

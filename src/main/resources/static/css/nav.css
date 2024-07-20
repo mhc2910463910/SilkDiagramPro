@@ -1,0 +1,53 @@
+@font-face {
+    font-family: "YEFONTJingHongXingKai";
+    src: url("../fonts/YEFONTJingHongXingKai-Regular.woff");
+}
+body{
+    /*background-image:url("img/魈.jpg");*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /*font-family: "YEFONTJingHongXingKai","YEFONTRuiYunNongKaiShu","Microsoft YaHei";*/
+    font-family: "Microsoft YaHei";
+}
+body {
+    margin:0;
+}
+body a {
+    text-decoration: none;
+}
+.nav {
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: rgba(255,255,255,0.7);*/
+    background-color: rgba(15,15,5,0.1);
+    backdrop-filter: blur(6px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    float:right;
+    border-radius: 0px 0px 20px 20px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    /*background-color: aqua;*/
+    flex-direction: row;
+    justify-content: center;
+}
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.navbar{
+    --bs-bg-opacity: 0;
+    padding: 0px;
+}
+li a:hover:not(.active) {
+    background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    color: white;
+}
